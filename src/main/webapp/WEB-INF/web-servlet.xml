@@ -13,5 +13,5 @@
 
     <mvc:annotation-driven/>
 
-    <context:component-scan base-package="demo.controller demo.dao.impl"/>
+    <context:component-scan base-package="demo.controller demo.dao.impl demo.service.impl"/>
 </beans>

@@ -3,23 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
-    <insert id="create" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-      INSERT INTO db_test.user VALUES (NULL ,#{username},#{password})
+    <insert id="create" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO db_test.user(username, password) VALUE (#{username}, #{password})
     </insert>
-
-    <update id="update" parameterType="User">
-        UPDATE db_test.user  SET username = #{username},password = #{password} WHERE id = #{id}
+    <select id="query" parameterType="user" resultType="user">
+        SELECT *
+        FROM db_test.user
+        WHERE username = #{username} AND password = #{password}
+    </select>
+    <select id="queryByUsername" parameterType="String" resultType="user">
+        SELECT *
+        FROM db_test.user
+        WHERE username = #{username}
+    </select>
+    <update id="modify" parameterType="user">
+        UPDATE db_test.user
+        SET username = #{username},
+        password = #{password},
+        lastTime = #{lastTime}
+        WHERE id = #{id}
     </update>
-    <delete id="delete" parameterType="int">
-        DELETE FROM db_test.user WHERE id = #{id};
-    </delete>
-    <select id="queryAll" resultType="User">
-        SELECT * FROM db_test.user;
-    </select>
-    <select id="queryById" parameterType="int" resultType="User">
-        SELECT * FROM db_test.user WHERE id = #{id};
-    </select>
-    <select id="signIn" parameterType="user" resultType="user">
-        SELECT * FROM db_test.user WHERE username = #{username} AND password = #{password}
-    </select>
+    <update id="updateLastTime" parameterType="int">
+        UPDATE db_test.user
+        SET lastTime = now()
+        WHERE id = #{id}
+    </update>
 </mapper>
