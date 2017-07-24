@@ -2,6 +2,7 @@ package demo.service.impl;
 
 import demo.dao.GenericDao;
 import demo.service.GenericService;
+import demo.util.Pagination;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,10 +11,10 @@ import java.util.List;
  * Created by lixuanyu
  * on 2017/7/18.
  */
-public abstract class GenericServiceImpl<T extends Serializable> implements GenericService<T> {
-    GenericDao<T> genericDao;
+public abstract class GenericServiceImpl<T extends Serializable,ID extends Number> implements GenericService<T,ID> {
+    GenericDao<T,ID> genericDao;
 
-    public abstract void setGenericDao(GenericDao<T> genericDao);
+    public abstract void setGenericDao(GenericDao<T,ID> genericDao);
 
     @Override
     public void create(T t) {
@@ -26,12 +27,18 @@ public abstract class GenericServiceImpl<T extends Serializable> implements Gene
     }
 
     @Override
-    public List<T> queryAll() {
-        return genericDao.queryAll();
+    public Pagination<T> queryAll(int currentPage) {
+        return genericDao.queryAll(currentPage);
     }
 
     @Override
-    public T queryById(int id) {
+    public Pagination<T> query(String statement, Object parameter, int currentPage) {
+        return genericDao.query(statement, parameter, currentPage);
+    }
+
+
+    @Override
+    public T queryById(ID id) {
         return genericDao.queryById(id);
     }
 
@@ -46,7 +53,7 @@ public abstract class GenericServiceImpl<T extends Serializable> implements Gene
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(ID id) {
         genericDao.remove(id);
     }
 }

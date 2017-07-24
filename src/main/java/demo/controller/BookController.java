@@ -17,21 +17,33 @@ import java.util.Arrays;
 @Controller
 @RequestMapping("book")
 public class BookController extends BaseController {
+
+    private final BookService bookService;
+
     @Autowired
-    private BookService bookService;
-    @RequestMapping("create")
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @RequestMapping(value = "create")
     private String create(Book book) {
         bookService.create(book);
         return "redirect:/book/queryAll";
     }
 
-    @RequestMapping("queryAll")
-    private String queryAll() {
-        session.setAttribute("books",bookService.queryAll());
+    @RequestMapping("queryAll/{currentPage}")
+    private String queryAll(@PathVariable int currentPage) {
+        session.setAttribute("pagination", bookService.queryAll(currentPage));
         return "redirect:/index.jsp";
     }
-    @RequestMapping("queryBookById/{id}")
-    private String queryBookById(@PathVariable int id) {
+
+    @RequestMapping("queryAll")
+    private String queryAll() {
+        return queryAll(1);
+    }
+
+    @RequestMapping("queryById/{id}")
+    private String queryById(@PathVariable int id) {
         session.setAttribute("book", bookService.queryById(id));
         return "redirect:/edit.jsp";
     }
@@ -47,6 +59,7 @@ public class BookController extends BaseController {
         bookService.remove(id);
         return "redirect:/book/queryAll";
     }
+
     @RequestMapping("removeBooks")
     private String remove(int[] ids) {
         System.out.println(Arrays.toString(ids));

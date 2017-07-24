@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("user")
+public class UserController extends BaseController {
 
-public class UserController extends BaseController{
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping("signUp")
     private String signUp(User user) {
         if (userService.signUp(user)) {
             return "redirect:/default.jsp";
         }
-        request.setAttribute("message","用户名已经存在");
+        request.setAttribute("message", "用户名已经存在");
         return "/sign_up.jsp";
     }
 
@@ -30,10 +34,9 @@ public class UserController extends BaseController{
     private String signIn(User user) {
         user = userService.signIn(user);
         if (user != null) {
-                session.setAttribute("user", user);
-                return "redirect:/book/queryAll";
+            session.setAttribute("user", user);
+            return "redirect:/book/queryAll/1";
         }
-
         request.setAttribute("message", "用户名或密码错误");
         return "/default.jsp";
     }
@@ -43,6 +46,5 @@ public class UserController extends BaseController{
         session.invalidate();
         return "redirect:/default.jsp";
     }
-
 }
 

@@ -13,6 +13,6 @@ import java.util.List;
  * on 2017/7/14.
  */
 @Repository
-public class BookDaoImpl extends GenericDaoImpl<Book> implements BookDao {
+public class BookDaoImpl extends GenericDaoImpl<Book,Integer> implements BookDao {
 
 }

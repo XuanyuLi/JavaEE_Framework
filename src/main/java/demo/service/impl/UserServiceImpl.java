@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
  * on 2017/7/18.
  */
 @Service
-public class UserServiceImpl extends GenericServiceImpl<User> implements UserService{
+public class UserServiceImpl extends GenericServiceImpl<User,Integer> implements UserService{
     @Autowired
     private StrongPasswordEncryptor encryptor;
 
     @Override
     @Autowired
     @Qualifier("userDaoImpl")
-    public void setGenericDao(GenericDao<User> genericDao) {
+    public void setGenericDao(GenericDao<User,Integer> genericDao) {
         super.genericDao = genericDao;
     }
 

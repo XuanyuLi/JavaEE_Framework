@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
  * on 2017/7/18.
  */
 @Service
-public class BookServiceImpl extends GenericServiceImpl<Book> implements BookService {
+public class BookServiceImpl extends GenericServiceImpl<Book,Integer> implements BookService {
     @Override
     @Autowired
     @Qualifier("bookDaoImpl")
-    public void setGenericDao(GenericDao<Book> genericDao) {
+    public void setGenericDao(GenericDao<Book,Integer> genericDao) {
         super.genericDao = genericDao;
     }
 }
